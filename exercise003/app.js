@@ -16,9 +16,8 @@ new Vue({
         		if(this.canErase){
 	        		this.canErase = false;
 	        		setTimeout(function(){
-	        			console.log('hi');
 	        			vm.value = 0;
-	        			this.canErase = true;
+	        			vm.canErase = true;
 	        		}, this.duration);
         		}
         	}
