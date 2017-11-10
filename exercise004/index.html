@@ -1,0 +1,53 @@
+<script src="https://npmcdn.com/vue/dist/vue.js"></script>
+<link rel="stylesheet" type="text/css" href="styles.css">
+
+<div id="exercise">
+  <hr>
+  <!-- 1) Start the Effect with the Button. The Effect should alternate the "highlight" or "shrink" class on each new setInterval tick (attach respective class to the div with id "effect" below) -->
+  <div>
+    <button @click="startEffect">Start Effect</button>
+    <div id="effect" :class="effectClass"></div>
+  </div>
+  <hr>
+  <!-- 2) Create a couple of CSS classes and attach them via the array syntax -->
+  <div :class="[greenBorderClass,{'blue-bg': true}]">I got no class :(</div>
+  <hr>
+  <!-- 3) Let the user enter a class (create some example classes) and attach it -->
+  <div>
+    <input type="text" v-model:value="task3_userInputedClass">
+    <div :class="task3_userInputedClass"></div>
+
+    <h4>Type the classes in the input below</h4>
+    <ul>
+      <li>green-border</li>
+      <li>blue-bg</li>
+      <li>shrink</li>
+      <li>highlight</li>
+      <li>tall</li>
+      <li>short</li>
+    </ul>
+  </div>
+  <hr>
+  <!-- 4) Let the user enter a class and enter true/ false for another class (create some example classes) and attach the classes -->
+  <div>
+    Write a class in the first input and true/false in the other to use the tall class<br>
+    <input type="text" v-model:value="task4_userInputedClass">
+    <input type="text" v-model:value="task4_userInputedDecision" placeholder="true or false">
+    <div :class="task4_resultClass"></div>
+  </div>
+  <hr>
+  <!-- 5) Repeat 3) but now with values for styles (instead of class names). Attach the respective styles.  -->
+  <div>
+    Write styles in the input and see it in the div above<br>
+    <input type="text" v-model:value="task5_userinputedStyles">
+    <div :style="task5_userinputedStyles"></div>
+  </div>
+  <hr>
+  <!-- 6) Create a simple progress bar with setInterval and style bindings. Start it by hitting the below button. -->
+  <div>
+    <button v-on:click="startProgress">Start Progress</button>
+    <div class="progress-bar" :style="task6_progressStyle"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
