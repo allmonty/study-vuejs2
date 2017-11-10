@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <title>First app</title>
+
+        <style type="text/css">
+
+            body{
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .demo {
+                background-color: gray;
+                border-radius: 15px;
+                width: 100px;
+                height: 100px;
+                margin: 5px auto;
+            }
+
+            .red { background-color: red; }
+            .blue { background-color: blue; }
+            .green { background-color: green; }
+        </style>
+    </head>
+    <body>
+        <script src="https://unpkg.com/vue"></script>
+
+        <div id="app" style="text-align: center;">
+            <div class="demo" @click="attachedRed = !attachedRed" :class="divClasses()">Click here</div>
+            <div class="demo" :class="{red: attachedRed}"></div>
+            <div class="demo" :class="[color, {red: attachedRed}]">Write blue, green or red in the input below</div>
+            <input type="text" v-model:value="color">
+        </div>
+
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    attachedRed: false,
+                    color: "green"
+                },
+                methods: {
+                    divClasses: function(){
+                        return {
+                            red: this.attachedRed,
+                            blue: !this.attachedRed
+                        }
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
