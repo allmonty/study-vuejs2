@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <title>First app</title>
+        <style type="text/css">
+            .centralize {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                width: 25%;
+            }
+
+            .blue-square {
+                width: 100%;
+                height: 50px;
+                background-color: blue;
+                border: 3px solid green;
+                display: block;
+            }
+
+            h3 {
+                margin-bottom: 0px;
+            }
+
+            hr {
+                width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <script src="https://unpkg.com/vue"></script>
+
+        <div id="app" class="centralize">
+            <div v-show="showDiv" class="blue-square"></div>
+            <button type="button" @click="showDiv = !showDiv">Show</button>
+
+            <hr>
+
+            <h3>Beers</h3>
+            <ul>
+                <li v-for="beerType in beerTypes">{{ beerType }}</li>
+            </ul>
+
+            <hr>
+
+            <h3>My Top Beers</h3>
+            <ol>
+                <li v-for="beer in topBeers">
+                    {{ beer.name }}
+                    <ul>
+                        <li>{{ beer.type }}</li>
+                        <li>{{ beer.brewery }}</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    showDiv: true,
+                    beerTypes: ["Stout", 'IPA', 'APA', 'Berliner Weisse'],
+                    topBeers: [
+                        {name: "Red Potion", type: "Berlinder Weisse", brewery: "Hocus Pocus"},
+                        {name: "APA Cadabra", type: "American Pale Ale", brewery: "Hocus Pocus"},
+                        {name: "Rabbit Hole", type: "Imperial Stout", brewery: "Hocus Pocus"},
+                    ]
+                }
+            });
+        </script>
+    </body>
+</html>
