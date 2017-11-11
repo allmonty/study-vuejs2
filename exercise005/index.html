@@ -6,12 +6,10 @@
     <button @click="showParagraphs = !showParagraphs">Toggle</button>
     
     <p v-show="showParagraphs">You either see me ...</p>
-    <p v-show="showParagraphs">...or me</p>
-    
-    <template v-if="showParagraphs">
-      <p>You either see me ...</p>
-      <p>...or me</p>
-    </template>
+    <p v-show="!showParagraphs">...or me</p>
+
+    <p v-if="showParagraphs">You either see me ...</p>
+    <p v-else>...or me</p>
   </div>
   <hr>
   <!-- 2) Output an <ul> of array elements of your choice. Also print the index of each element. -->
