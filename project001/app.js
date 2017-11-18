@@ -39,6 +39,10 @@ new Vue({
                 this.isPlaying = false;
                 this.saveEvent("", "game over", "");
             },
+            victory() {
+                this.isPlaying = false;
+                this.saveEvent("", "victory", "");
+            },
             doAttack(target, attacker, isSpecial){
                 let damage = 0;
                 let message = "";
@@ -59,10 +63,11 @@ new Vue({
                         damage = hitPoints;
                 }
 
-                target.health -= damage;
                 this.saveEvent(attacker.name,
                                 isSpecial ? "special" : "attack",
                                 damage > 0 ? damage : "but missed");
+                
+                this.doDamage(target, damage);
             },
             doHeal(target) {
                 target.health += target.healPower;
@@ -70,13 +75,29 @@ new Vue({
                     target.health = target.maxHealth;
                 this.saveEvent(target.name, "heal", target.healPower);
             },
+            doDamage(target, damage) {
+                target.health -= damage;
+
+                if(target.health < 0)
+                {   
+                    target.health = 0;
+                    this.isPlaying = false;
+
+                    if(target.name == "Player")
+                        this.gameOver();
+                    else
+                        this.victory();
+                }
+            },
             attack() {
                 this.doAttack(this.enemy, this.player, false);
-                this.enemyTurn();
+                if(this.isPlaying)
+                    this.enemyTurn();
             },
             specialAttack() {
                 this.doAttack(this.enemy, this.player, true);
-                this.enemyTurn();
+                if (this.isPlaying)
+                    this.enemyTurn();
             },
             heal() {
                 this.doHeal(this.player);
