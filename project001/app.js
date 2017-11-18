@@ -3,16 +3,28 @@ new Vue({
         data: {
             isPlaying: false,
             player: {
+                name: "Player",
                 maxHealth: 100,
                 health: 0,
                 strength: 10,
-                healPower: 10
+                specialPower: 20,
+                healPower: 15,
+                normalCritChance: 0.1,
+                normalMissChance: 0.1,
+                specialCritChance: 0.3,
+                specialMissChance: 0.25
             },
             enemy: {
+                name: "Enemy",
                 maxHealth: 100,
                 health: 0,
-                strength: 10,
-                healPower: 10
+                strength: 11,
+                specialPower: 15,
+                healPower: 5,
+                normalCritChance: 0.75,
+                normalMissChance: 0.1,
+                specialCritChance: 0.33,
+                specialMissChance: 0.25
             },
             events: []
         },
@@ -21,42 +33,70 @@ new Vue({
                 this.player.health = this.player.maxHealth;
                 this.enemy.health = this.enemy.maxHealth;
                 this.isPlaying = true;
-                this.saveEvent("Start Game", "");
+                this.saveEvent("", "start game", "");
             },
-            giveUp() {
+            gameOver() {
                 this.isPlaying = false;
-                this.saveEvent("Gave up", "");
-                this.enemyTurn();
+                this.saveEvent("", "game over", "");
             },
-            attack() {
-                let damage;
-                if(this.succeeded(0.8))
+            doAttack(target, attacker, isSpecial){
+                let damage = 0;
+                let message = "";
+                
+                let hitPoints   = isSpecial ? attacker.specialPower : attacker.strength;
+                let missChance  = isSpecial ? attacker.specialMissChance : attacker.normalMissChance;
+                let critChance  = isSpecial ? attacker.specialCritChance : attacker.normalCritChance;
+
+                if(this.succeeded(missChance))
                 {
-                    damage = this.calculateVariation(this.player.strength, this.player.strength/3);
+                    damage = 0;
                 }
                 else
                 {
-                    damage = 0
+                    if(this.succeeded(critChance))
+                        damage = hitPoints * 1.2;
+                    else
+                        damage = hitPoints;
                 }
-                this.enemy.health -= damage;
-                this.saveEvent("Attack", damage > 0 ? damage : "missed");
+
+                target.health -= damage;
+                this.saveEvent(attacker.name,
+                                isSpecial ? "special" : "attack",
+                                damage > 0 ? damage : "but missed");
+            },
+            doHeal(target) {
+                target.health += target.healPower;
+                if (target.health > target.maxHealth)
+                    target.health = target.maxHealth;
+                this.saveEvent(target.name, "heal", target.healPower);
+            },
+            attack() {
+                this.doAttack(this.enemy, this.player, false);
                 this.enemyTurn();
             },
             specialAttack() {
-                this.enemy.health -= 20;
-                this.saveEvent("Special attack", 20);
+                this.doAttack(this.enemy, this.player, true);
                 this.enemyTurn();
             },
             heal() {
-                this.player.health += 10;
-                if(this.player.health > this.player.maxHealth)
-                    this.player.health = this.player.maxHealth;
-                this.saveEvent("Healed", 10);
+                this.doHeal(this.player);
                 this.enemyTurn();
             },
             enemyTurn(){
-                this.player.health -= this.enemy.strength;
-                this.saveEvent("Attack", this.enemy.strength);
+                let enemyChanteToSpecial = 0.3;
+                let enemyChanteToHeal = 0.25;
+
+                if (this.enemy.health < this.enemy.maxHealth &&
+                    this.succeeded(enemyChanteToSpecial))
+                {
+                    this.doHeal(this.enemy)
+                    return;
+                }
+
+                if (this.succeeded(enemyChanteToSpecial))
+                    this.doAttack(this.player, this.enemy, true);
+                else
+                    this.doAttack(this.player, this.enemy, false);
             },
             succeeded(chance){
                 let value = Math.random();
@@ -65,19 +105,12 @@ new Vue({
                 else
                     return false;
             },
-            calculateVariation(value, range){
-                let variation = Math.random()*range;
-                console.log(variation);
-                if(this.succeeded(0.5))
-                    variation *= -1;
-                console.log(variation);
-                return Math.floor(value + variation);
-            },
-            saveEvent(type, detail){
+            saveEvent(action_character, action_type, action_detail){
                 this.events.push(
                     {
-                        name: type,
-                        value: detail
+                        character: action_character,
+                        type: action_type,
+                        value: action_detail
                     }
                 );
             }

@@ -36,16 +36,35 @@
             <button id="attack" @click="attack()">ATTACK</button>
             <button id="special-attack" @click="specialAttack()">SPECIAL ATTACK</button>
             <button id="heal" @click="heal()">HEAL</button>
-            <button id="give-up" @click="giveUp()">GIVE UP</button>
+            <button id="give-up" @click="gameOver()">GIVE UP</button>
         </div>
     </section>
     <section class="row log">
-        <div class="small-12 columns">
-            <ul>
-                <li v-for="event in events">
-                    {{event.name}} + {{event.value}}
-                </li>
-            </ul>
+        <div class="small-12 columns" v-for="event in events">
+            <template v-if="event.type == 'start game'">
+                <span class="small-12 columns" id="start-game">
+                    Game Started
+                </span>
+            </template>
+
+            <template v-else-if="event.type == 'game over'">
+                <span class="small-12 columns" id="give-up">
+                    Game Over
+                </span>
+            </template>
+
+            <template v-else>
+                <span class="small-4 columns" id="player-turn" v-if="event.character == 'Player'">
+                    {{event.character}} :
+                </span>
+                <span class="small-4 columns" id="enemy-turn" v-else-if="event.character == 'Enemy'">
+                    {{event.character}} :
+                </span>
+
+                <span class="small-8 columns" :id="event.type">
+                    used {{event.type}} : {{event.value}}
+                </span>
+            </template>
         </div>
     </section>
 </div>

@@ -69,11 +69,11 @@ button {
     background-color: #ff3f43;
 }
 
-#special-attack {
+#special {
     background-color: #ffaf4f;
 }
 
-#special-attack:hover {
+#special:hover {
     background-color: #ff9a2b;
 }
 
@@ -91,4 +91,12 @@ button {
 
 #give-up:hover {
     background-color: #c7c7c7;
+}
+
+#player-turn {
+    background-color: cornflowerblue;
+}
+
+#enemy-turn {
+    background-color: tomato;
 }
