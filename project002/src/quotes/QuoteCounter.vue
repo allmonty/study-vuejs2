@@ -1,15 +1,20 @@
 <template>
-    <div>
-        <h2>Quotes Added</h2>
-        <div class="progression-bar" id="back">
-            <div class="progression-bar" id="front" :style="{width: calculateProgression}">
-                <span v-if="countedQuotes > 0">{{countedQuotes}} / {{maxQuotes}}</span>
+    <div class="container-fluid">
+        <div class="row">
+            <h2>Quotes Added</h2>
+            <div class="progression-bar" id="back">
+                <div class="progression-bar" id="front" :style="{width: calculateProgression}">
+                    <span v-if="countedQuotes > 0">{{countedQuotes}} / {{maxQuotes}}</span>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+
+    import {QuoteEventBus} from "./QuoteEventBus"
+
     export default {
         data: function(){
             return {
@@ -21,6 +26,16 @@
             calculateProgression(){
                 return (this.countedQuotes * 100) / this.maxQuotes + "%"
             }
+        },
+        created(){
+            QuoteEventBus.$on('CreateQuote', (quote) => {
+                if(this.countedQuotes < this.maxQuotes)
+                    this.countedQuotes++;
+            });
+            QuoteEventBus.$on('RemoveQuote', (quote) => {
+                if(this.countedQuotes > 0)
+                    this.countedQuotes--;
+            });
         }
     }
 </script>
@@ -36,10 +51,10 @@
         font-weight: bold;
         color: white;
 
-        transition: width 1s;
+        transition: width 0.5s;
     }
     .progression-bar#back{
-        background-color: lightgray;
+        background-color: #ccc;
     }
     .progression-bar#front{
         background-color: #7272ff;
