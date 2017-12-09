@@ -32,4 +32,7 @@
 </script>
 
 <style>
+    .navbar {
+        margin-top: 15px;
+    }
 </style>

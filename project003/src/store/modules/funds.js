@@ -1,5 +1,5 @@
 const state = {
-    funds: 100.00
+    funds: 10000.00
 };
 
 const getters = {
