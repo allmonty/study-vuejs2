@@ -13,14 +13,22 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a>End Day</a></li>
                 <li><a>Save & Load</a></li>
-                <li><a><b>Funds: $xx,xx</b></a></li>
+                <li><a><b>Funds: {{getFunds | currency}}</b></a></li>
             </ul>
         </div>
     </nav>
 </template>
 
 <script>
-export default {};
+    import {mapGetters} from 'vuex';
+
+    export default {
+        computed: {
+            ...mapGetters('funds', {
+                getFunds: 'getFunds'
+            })
+        }
+    };
 </script>
 
 <style>
