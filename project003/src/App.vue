@@ -16,5 +16,8 @@
 </script>
 
 <style>
-
+    .row{
+        border: 1px solid #e7e7e7;
+        border-radius: 4px;
+    }
 </style>
