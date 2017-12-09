@@ -6,14 +6,22 @@
                 <p>You may Save & Load your Data</p>
                 <p>Click on 'End Day' to begin a new Day!</p>
                 <hr>
-                <h3>You Funds: xx</h3>
+                <h3>Your Funds: {{getFunds | currency}}</h3>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-export default {};
+    import {mapGetters} from 'vuex';
+
+    export default {
+        computed: {
+            ...mapGetters('funds', {
+                getFunds: 'getFunds'
+            })
+        }
+    };
 </script>
 
 <style scoped>
