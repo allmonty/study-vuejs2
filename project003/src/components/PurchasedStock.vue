@@ -3,13 +3,13 @@
         <div class="row">
             <div class="col-xs-12 header">
                 <span id="stock-name">{{name}}</span>
-                <span id="stock-price">(Price: {{price | currency}})</span>
+                <span id="stock-info">(Price: {{price | currency}} | Qtd: {{quantity}})</span>
             </div>
             <div class="col-xs-4 content">
-                <input type="number" v-model="quantity" class="form-control" min="0">
+                <input type="number" v-model="quantityToSell" class="form-control" min="0">
             </div>
             <div class="col-xs-4 col-xs-offset-4 content">
-                <button type="submit" @click="buyStock" class="btn btn-success">Buy</button>
+                <button type="submit" @click="sellStock" class="btn btn-success">Sell</button>
             </div>
         </div>
     </div>
@@ -20,22 +20,21 @@
 
     export default {
         props: [
-            'price', 'name'
+            'price', 'name', 'quantity'
         ],
         data(){
             return {
-                quantity: 0
+                quantityToSell: 0
             }
         },
         methods: {
             ...mapActions('wallet', {
-                buy: 'buy'
+                sell: 'sell'
             }),
-            buyStock(){
-                this.buy({
+            sellStock(){
+                this.sell({
                     name: this.name,
-                    price: Number(this.price),
-                    quantity: Number(this.quantity)
+                    quantityToSell: Number(this.quantityToSell)
                 });
             }
         }
@@ -57,7 +56,7 @@
         font-weight: bold;
         font-size: 1.5em;
     }
-    #stock-price{
+    #stock-info{
         font-size: 1em;
         color: gray;
     }
