@@ -46,6 +46,19 @@ const mutations = {
             });
         else
             stock.quantity += payload.quantity;
+    },
+    removeStock(state, payload) {
+        let stock = state.stocks.find(value => {
+            return value.name == payload.name;
+        });
+
+        if (stock && payload.quantityToSell <= stock.quantity) {
+            let totalPrice = payload.quantityToSell * payload.availableStocks[payload.name].price;
+            state.funds += totalPrice;
+            stock.quantity -= payload.quantityToSell;
+            if(stock.quantity <= 0)
+                state.stocks.splice(state.stocks.indexOf(stock), 1);
+        }
     }
 };
 
@@ -58,6 +71,14 @@ const actions = {
             commit('subtractFund', totalPrice);
         }
     },
+    sell({ commit, rootState }, payload) {
+        let newPayload = {
+            availableStocks : rootState.availablestocks.availableStocks,
+            ...payload
+        }
+
+        commit('removeStock', newPayload);
+    }
 };
 
 export default {
