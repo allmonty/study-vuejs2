@@ -17,6 +17,11 @@ const mutations = {
     setStocks(state, payload) {
         state.availableStocks = payload;
     },
+    calculateNextDay(state) {
+        state.availableStocks.forEach(element => {
+            element.price = Math.round(element.price * (1 + Math.random() - 0.5));
+        });
+    }
 };
 
 const actions = {
@@ -28,6 +33,9 @@ const actions = {
         
         commit('setStocks', payload);
     },
+    calculateNextDay({commit}) {
+        commit('calculateNextDay');
+    }
 };
 
 export default {

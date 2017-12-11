@@ -11,16 +11,16 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a>End Day</a></li>
+                <li><a @click="goToNextDay">End Day</a></li>
                 <li>
-                    <a @click="toggleSaveLoad" href="#">
+                    <a @click="toggleSaveLoad">
                         Save & Load <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" 
                         :style="{display: (this.saveLoadIsVisible == true ? 'initial' : 'none')}">
-                        <li><a @click="saveData(); toggleSaveLoad();" href="#">Save</a></li>
+                        <li><a @click="saveData(); toggleSaveLoad();">Save</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a @click="loadData(); toggleSaveLoad();" href="#">Load</a></li>
+                        <li><a @click="loadData(); toggleSaveLoad();">Load</a></li>
                     </ul>
                 </li>
                 <li><a><b>Funds: {{getFunds | currency}}</b></a></li>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex';
+    import {mapGetters, mapActions} from 'vuex';
     import {DataConnectionMixin} from '../Mixins/DataConnectionMixin.js';
 
     export default {
@@ -46,6 +46,9 @@
             })
         },
         methods: {
+            ...mapActions('availablestocks', {
+                goToNextDay: 'calculateNextDay'
+            }),
             toggleSaveLoad(event){
                 this.saveLoadIsVisible = !this.saveLoadIsVisible;
             }
@@ -53,7 +56,10 @@
     };
 </script>
 
-<style>
+<style scoped>
+    a {
+        cursor: pointer;
+    }
     .navbar {
         margin-top: 15px;
     }

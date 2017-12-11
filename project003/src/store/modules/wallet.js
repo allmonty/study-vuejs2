@@ -25,8 +25,6 @@ const getters = {
         state.stocks.forEach(element => {
             element['price'] = stocksDict[element.name];
         });
-
-        console.log(state.stocks);
         
         return state.stocks;
     }
@@ -56,8 +54,6 @@ const mutations = {
             });
         else
             stock.quantity += payload.quantity;
-        
-        console.log(state.stocks);
     },
     removeStock(state, payload) {
         let stock = state.stocks.find(value => {
