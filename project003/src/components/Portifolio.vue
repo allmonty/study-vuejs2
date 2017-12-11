@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="col-xs-6 stock" v-for="stock in getPurchasedStocks" :key="stock.name">
+        <div class="col-xs-6 stock" v-for="stock in getPurchasedStocksWithPrice" :key="stock.name">
             <cmp-purchased-stock :name="stock.name" :price="stock.price" :quantity="stock.quantity"></cmp-purchased-stock>
         </div>
     </div>
@@ -13,7 +13,7 @@
     export default {
         computed: {
             ...mapGetters('wallet', {
-                getPurchasedStocks: 'getPurchasedStocks'
+                getPurchasedStocksWithPrice: 'getPurchasedStocksWithPrice'
             })
         },
         components:{

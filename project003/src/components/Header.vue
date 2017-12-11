@@ -12,7 +12,17 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li><a>End Day</a></li>
-                <li><a>Save & Load</a></li>
+                <li>
+                    <a @click="toggleSaveLoad" href="#">
+                        Save & Load <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" 
+                        :style="{display: (this.saveLoadIsVisible == true ? 'initial' : 'none')}">
+                        <li><a @click="saveData(); toggleSaveLoad();" href="#">Save</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a @click="loadData(); toggleSaveLoad();" href="#">Load</a></li>
+                    </ul>
+                </li>
                 <li><a><b>Funds: {{getFunds | currency}}</b></a></li>
             </ul>
         </div>
@@ -21,12 +31,24 @@
 
 <script>
     import {mapGetters} from 'vuex';
+    import {DataConnectionMixin} from '../Mixins/DataConnectionMixin.js';
 
     export default {
+        mixins: [DataConnectionMixin],
+        data(){
+            return {
+                saveLoadIsVisible: false,
+            }
+        },
         computed: {
             ...mapGetters('wallet', {
                 getFunds: 'getFunds'
             })
+        },
+        methods: {
+            toggleSaveLoad(event){
+                this.saveLoadIsVisible = !this.saveLoadIsVisible;
+            }
         }
     };
 </script>

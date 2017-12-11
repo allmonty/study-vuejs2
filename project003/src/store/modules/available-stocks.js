@@ -1,32 +1,34 @@
 const state = {
-    availableStocks: {
-        'Google':       { price: 100 },
-        'Twitter':      { price: 50 },
-        'Microsoft':    { price: 75 },
-        'Apple':        { price: 90 }
-    }
+    availableStocks: [
+        { name: 'Google', price: 100 },
+        { name: 'Twitter', price: 50 },
+        { name: 'Microsoft', price: 75 },
+        { name: 'Apple', price: 90 }
+    ]
 };
 
 const getters = {
     getAvailableStocks(state) {
-        let response = []
-
-        for (var stock in state.availableStocks) {
-            response.push(
-                {
-                    name: stock,
-                    price: state.availableStocks[stock].price
-                }
-            );
-        }
-
-        return response;
+        return state.availableStocks;
     }
 };
 
-const mutations = {};
+const mutations = {
+    setStocks(state, payload) {
+        state.availableStocks = payload;
+    },
+};
 
-const actions = {};
+const actions = {
+    setStocks({ commit }, payload) {
+        for(var stockId in payload){
+            if(!payload[stockId].name && !payload[stockId].price)
+            return
+        }
+        
+        commit('setStocks', payload);
+    },
+};
 
 export default {
     namespaced: true,
