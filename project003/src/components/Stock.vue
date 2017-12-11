@@ -59,6 +59,6 @@
     }
     #stock-price{
         font-size: 1em;
-        color: gray;
+        color: #000486;
     }
 </style>

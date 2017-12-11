@@ -47,7 +47,7 @@
         text-align: right;
     }
     .header {
-        background-color: lightblue;
+        background-color: lightcoral;
         display: flex;
         justify-content: space-between;
         align-items: baseline;
@@ -58,6 +58,6 @@
     }
     #stock-info{
         font-size: 1em;
-        color: gray;
+        color: #000486;
     }
 </style>
